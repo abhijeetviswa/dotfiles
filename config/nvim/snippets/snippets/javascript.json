@@ -1,0 +1,14 @@
+{
+  "console.log(JSON.stringify())": {
+    "prefix": "cljs",
+    "body": "console.log('$1: ' + JSON.stringify($2, null, 2))"
+  },
+  "console.time()": {
+    "prefix": "cti",
+    "body": "console.time('$1')"
+  },
+  "console.timeEnd()": {
+    "prefix": "cte",
+    "body": "console.timeEnd('$1')"
+  }
+}

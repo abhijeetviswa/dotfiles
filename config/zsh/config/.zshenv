@@ -2,6 +2,9 @@
 # |  Options |
 # +-----------+
 setopt correct
+HISTFILE="$ZDOTDIR/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
 
 # +--------------+
 # |  Environment |

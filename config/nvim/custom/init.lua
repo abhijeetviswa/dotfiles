@@ -38,7 +38,7 @@ autocmd("Syntax", {
 })
 
 -- Snippet paths:
-vim.g.vscode_snippets_path = vim.fn.stdpath("config") .. "/snippets/" -- vscode format
+vim.g.vscode_snippets_path = vim.fn.stdpath("config") .. "/vscode-snippets/" -- vscode format
 -- vim.g.snipmate_snippets_path = "your snippets path" -- snipmate format
 -- vim.g.lua_snippets_path = vim.fn.stdpath "config" .. "/lua/custom/lua_snippets" -- lua format
 

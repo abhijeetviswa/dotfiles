@@ -1,0 +1,11 @@
+# +------------------+
+# | Custom Functions |
+# +------------------+
+
+# Run command then disown
+run() {($("$@") > /dev/null 2>&1 &;)}
+
+# Open files with default application
+# If no arguments are specified, open the PWD
+open() { (run xdg-open "$( ([[ "$@" ]] && echo "$@") || echo "$PWD")" > /dev/null 2>&1) }
+

@@ -1,2 +1,2 @@
 # Don't ignore custom Nvchad config
-!config/nvim/lua/custom  
+config/nvim/zsh/.zcompdump*

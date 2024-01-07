@@ -17,6 +17,11 @@ endif
 default:
 	@echo "Run 'make install' to install dotfiles"
 
+.PHONY: install-zsh
+install-zsh:
+	@echo "Installing Zsh config"
+	echo 'export ZDOTDIR="$(DOTFILES_DIR)/config/zsh/config"' | cat >> $$HOME/.zshenv
+	echo 'source $(DOTFILES_DIR)/config/zsh/config/.zshenv' | cat >> $$HOME/.zshenv
 
 .PHONY: install-nvim
 install-nvim:
@@ -31,7 +36,6 @@ install-tmux:
 	# Single file config
 	$(LN) -fTs "$(DOTFILES_DIR)/config/tmux/tmux.conf" "$$HOME/.config/tmux/tmux.conf"
 
-
 .PHONY: install
-install: install-nvim install-tmux
+install: install-zsh install-nvim install-tmux
 

@@ -30,3 +30,5 @@ install-nvim:
 .PHONY: install-tmux
 install-tmux:
 	@echo "Installing tmux config"
+	# Single file config
+	$(LN) -fTs "$(DOTFILES_DIR)/config/tmux/tmux.conf" "$$HOME/.config/tmux/tmux.conf"

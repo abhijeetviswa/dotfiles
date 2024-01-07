@@ -23,9 +23,9 @@ install: install-nvim
 .PHONY: install-nvim
 install-nvim:
 	@echo "Installing Neovim config"
-	$(LN) -fs "$(DOTFILES_DIR)/config/nvim/nvchad" "$$HOME/.config/nvim"
-	$(LN) -fs "$(DOTFILES_DIR)/config/nvim/custom" "$$HOME/.config/nvim/lua/custom"
-	$(LN) -fs "$(DOTFILES_DIR)/config/nvim/snippets" "$$HOME/.config/nvim/vscode-snippets"
+	$(LN) -fTs  "$(DOTFILES_DIR)/config/nvim/nvchad" "$$HOME/.config/nvim"
+	$(LN) -fTs "$(DOTFILES_DIR)/config/nvim/custom" "$$HOME/.config/nvim/lua/custom"
+	$(LN) -fTs "$(DOTFILES_DIR)/config/nvim/snippets" "$$HOME/.config/nvim/vscode-snippets"
 
 .PHONY: install-tmux
 install-tmux:

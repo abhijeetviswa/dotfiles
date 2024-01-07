@@ -137,6 +137,10 @@ local plugins = {
       require "custom.configs.statuscol"
     end,
   },
+  {
+    "LudoPinelli/comment-box.nvim",
+    event = "BufReadPost",
+  },
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",

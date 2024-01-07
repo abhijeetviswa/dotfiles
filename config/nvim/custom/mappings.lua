@@ -26,7 +26,6 @@ M.general = {
 			"<cmd> Telescope find_files find_command=rg,--no-ignore,--hidden,--follow,--files,--ignore-files=.git<CR>",
 			"Find all",
 		},
-		--
 	},
 	v = {
 		-- Clipboard actions
@@ -236,6 +235,11 @@ M.ufo = {
 		},
 	},
 }
--- more keybinds!
+
+M.comment_box = {
+  n = {
+    ["<leader>cb"] = {"<cmd>CBalbox10<CR>", "Create Comment Box", {noremap = true, silent = true}}
+  }
+}
 
 return M

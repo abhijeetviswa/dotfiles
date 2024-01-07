@@ -1,24 +1,22 @@
 DOTFILES_DIR:=$(shell realpath .)
-
-# ## FIND OS
 UNAME:=$(shell uname)
 
-# ## OS SPECIFIC DECLARATIONS
-# ### LINUX
+# +--------------------------+
+# | OS SPECIFIC DECLARATIONS |
+# +--------------------------+
+# --- LINUX ---
 ifeq ($(UNAME), Linux)
 	LN?="/bin/ln"
 endif
 
-# ### DARWIN
+# --- DARWIN ---
 ifeq ($(UNAME), Darwin)
-	LN?=/usr/local/bin/gln
+	LN?=$(shell brew --prefix)/bin/gln
 endif
 
 default:
 	@echo "Run 'make install' to install dotfiles"
 
-.PHONY: install
-install: install-nvim
 
 .PHONY: install-nvim
 install-nvim:
@@ -32,3 +30,8 @@ install-tmux:
 	@echo "Installing tmux config"
 	# Single file config
 	$(LN) -fTs "$(DOTFILES_DIR)/config/tmux/tmux.conf" "$$HOME/.config/tmux/tmux.conf"
+
+
+.PHONY: install
+install: install-nvim install-tmux
+

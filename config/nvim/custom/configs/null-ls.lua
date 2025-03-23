@@ -11,8 +11,7 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local sources = {
 
   -- webdev stuff
-  b.formatting.prettier.with { filetypes = { "html", "markdown", "css", "javascript", "typescript", "yaml" } }, -- so prettier works only on these filetypes
-  b.code_actions.eslint.with { filetypes = { "javascript", "typescript" } },
+  b.formatting.prettier.with({ filetypes = { "html", "markdown", "css", "javascript", "typescript" } }), -- so prettier works only on these filetypes
 
   -- Lua
   b.formatting.stylua,
@@ -22,21 +21,24 @@ local sources = {
 
   -- github actions
   b.diagnostics.actionlint,
+
+  -- yaml
+  b.formatting.yamlfmt,
 }
 
-null_ls.setup {
+null_ls.setup({
   debug = true,
   on_attach = function(client, bufnr)
-    if client.supports_method "textDocument/formatting" then
-      vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = augroup,
         buffer = bufnr,
         callback = function()
-          vim.lsp.buf.format { async = false, bufnr = bufnr }
+          vim.lsp.buf.format({ async = false, bufnr = bufnr })
         end,
       })
     end
   end,
   sources = sources,
-}
+})

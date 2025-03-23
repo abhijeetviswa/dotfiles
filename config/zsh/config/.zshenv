@@ -11,7 +11,6 @@ SAVEHIST=100000
 # +--------------+
 # --- Init Vars ---
 export UNAME="$(uname)"
-export DOTFILES_DIR=$(realpath "$(dirname "${0:a}")/../../..")
 export ZSH="$DOTFILES_DIR/config/zsh/ohmyzsh"
 export ZSH_CUSTOM="$DOTFILES_DIR/config/zsh/custom"
 export ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -21,8 +20,7 @@ export EDITOR="nvim"
 export PAGER="bat"
 export GPG_TTY=$TTY
 export KEYTIMEOUT=1
-export LS_COLORS="$(vivid generate one-dark || echo '') > /dev/null"
-export MAKEFLAGS="-j $(nproc)"
+export MAKEFLAGS="-j $(nproc 2>/dev/null || echo 1)"
 
 # +---------+
 # | Aliases |

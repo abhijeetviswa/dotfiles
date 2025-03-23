@@ -11,31 +11,60 @@ vim.opt.clipboard = ""
 vim.wo.number = true
 vim.wo.relativenumber = true
 
+-- Strip trailing whitespace
 autocmd("BufWritePre", {
 	pattern = "*",
 	command = "%s/\\s\\+$//e",
 })
 
+-- Make ejs it's own filetype
 autocmd({ "BufNewFile", "BufRead" }, {
 	pattern = "*.ejs",
 	command = "set filetype=ejs",
 })
 
-autocmd("FileType", {
-	pattern = "yaml",
-	callback = function()
-		print("File is yaml!")
-		vim.opt_local.shiftwidth = 2
-		vim.opt_local.softtabstop = 2
-		vim.opt_local.tabstop = 2
-		vim.opt_local.expandtab = true
-	end,
-})
-
+-- Set syntax for ejs
 autocmd("Syntax", {
 	pattern = "ejs",
 	command = "runtime! syntax/html.vim",
 })
+
+-- Make yaml bearable
+autocmd("FileType", {
+	pattern = "yaml",
+	callback = function()
+		vim.opt_local.shiftwidth = 2
+		vim.opt_local.softtabstop = 2
+		vim.opt_local.tabstop = 2
+		vim.opt_local.expandtab = true
+		vim.opt_local.formatprg = "yq"
+	end,
+})
+
+autocmd("FileType", {
+	pattern = "json",
+	callback = function()
+		vim.opt_local.formatprg = "jq"
+	end,
+})
+
+-- autocmd("BufWritePre", {
+-- 	pattern = "*.json",
+-- 	callback = function()
+-- 		local view = vim.fn.winsaveview()
+-- 		-- vim.cmd.normal("gggqG")
+-- 		vim.fn.winrestview(view)
+-- 	end,
+-- })
+--
+-- autocmd("BufWritePre", {
+-- 	pattern = "*.yaml,*.yml",
+-- 	callback = function()
+-- 		local view = vim.fn.winsaveview()
+-- 		vim.cmd.normal("gggqG")
+-- 		vim.fn.winrestview(view)
+-- 	end,
+-- })
 
 -- Snippet paths:
 vim.g.vscode_snippets_path = vim.fn.stdpath("config") .. "/vscode-snippets/" -- vscode format

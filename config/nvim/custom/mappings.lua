@@ -17,14 +17,43 @@ M.general = {
 
 		-- Buffer helpers
 		["<leader>bd"] = { "<cmd> %bd<CR>", "Close all buffers", opts = { remap = false } },
-		["<leader>bdo"] = { "<cmd> %bd|e#|bd#<CR>", "Close all buffers but current open", opts = { remap = false } },
+		["<leader>bdo"] = { "<cmd>BufOnly<CR>", "Close all buffers but current open", opts = { remap = false } },
 
 		-- Find
-		["<leader>ff"] = { "<cmd> Telescope find_files find_command=rg,--ignore,--hidden,--files<CR>", "Find Files" },
-		-- ["<leader>fg"] = { "<cmd> Telescope find_files grep_string=rg,--ignore,--hidden,--files<CR>" }, -- Does not work
+		["<leader>ff"] = {
+			"<cmd> Telescope find_files find_command=rg,--ignore,--hidden,--files,--iglob=!.git/<CR>",
+			"Find Files",
+		},
 		["<leader>fa"] = {
-			"<cmd> Telescope find_files find_command=rg,--no-ignore,--hidden,--follow,--files,--ignore-files=.git<CR>",
+			"<cmd> Telescope find_files find_command=rg,--no-ignore,--hidden,--follow,--files,--iglob=!.git/<CR>",
 			"Find all",
+		},
+
+		["<leader>ft"] = {
+			"<cmd> Telescope filetypes<CR>",
+			"List Filetypes",
+		},
+		["<leader>fw"] = {
+			function()
+				require("telescope.builtin").live_grep({ additional_args = { "--hidden", "--glob=!.git/" } })
+			end,
+			"Live grep",
+		},
+
+		["<leader>qf"] = {
+			"<cmd> copen<CR>",
+			"Open quickfix",
+		},
+
+		["<leader>lgc"] = {
+			"<cmd> Telescope git_bcommits<CR>",
+			"Git blame buffer",
+		},
+		["<C-'>"] = {
+			function()
+				vim.lsp.buf.signature_help()
+			end,
+			"LSP signature help",
 		},
 	},
 	v = {
@@ -33,7 +62,18 @@ M.general = {
 		["<leader>p"] = { '"*p', "Paste from clipboard", opts = { remap = true } },
 	},
 	t = {
-		["<C-/>"] = { vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "Escape terminal mode" },
+		["<C-/>"] = {
+			vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true),
+			"Escape terminal mode",
+		},
+	},
+	i = {
+		["<C-'>"] = {
+			function()
+				vim.lsp.buf.signature_help()
+			end,
+			"LSP signature help",
+		},
 	},
 }
 
@@ -48,6 +88,12 @@ M.general = {
 
 M.debugging = {
 	n = {
+		["<F2>"] = {
+			function()
+				require("custom.configs.dap").reload_launchjs()
+			end,
+			"Reload Launch Config",
+		},
 		["<F5>"] = {
 			function()
 				require("dap").continue()
@@ -56,7 +102,7 @@ M.debugging = {
 			end,
 			"Start/Continue debugger",
 		},
-		["<leader>dt"] = {
+		["<leader><leader>d"] = {
 			function()
 				require("dapui").toggle()
 			end,
@@ -108,75 +154,20 @@ M.debugging = {
 			end,
 			"End Debugger",
 		},
+		["<leader>dr"] = {
+			function()
+				require("dap").run_to_cursor()
+			end,
+			"Run to Cursor",
+		},
+		["<leader>dz"] = {
+			function()
+				require("dap").focus_frame()
+			end,
+			"Focus Frame",
+		},
 	},
 }
-
--- M.debugging = {
---   plugin = true,
---   n = {
---     ["<F5>"] = {
---       function()
---         require("dap").continue()
---       end,
---       "Start/Continue debugger",
---     },
---     ["<F8>"] = {
---       function()
---         require("dap").step_into()
---       end,
---       "Step into",
---     },
---     ["<F9>"] = {
---       function()
---         require("dap").step_over()
---       end,
---       "Step over",
---     },
---     ["<leader>dd"] = {
---       function()
---         require("dap").toggle_breakpoint()
---       end,
---       "Toggle Breakpoint",
---     },
---     ["<F2>"] = {
---       function()
---         require("dap").repl.toggle()
---       end,
---       "Toggle REPL",
---     },
---     ["<leader>dh"] = {
---       function()
---         require("dap.ui.widgets").hover()
---       end,
---       "DAP Hover",
---     },
---     ["<leader>df"] = {
---       function()
---         local widgets = require "dap.ui.widgets"
---         widgets.centered_float(widgets.frames)
---       end,
---       "DAP Frames",
---     },
---     ["<leader>ds"] = {
---       function()
---         local widgets = require "dap.ui.widgets"
---         widgets.centered_float(widgets.scopes)
---       end,
---     },
---     ["<leader>dp"] = {
---       function()
---         require("dap.ui.widgets").preview()
---       end,
---       "DAP Scopes",
---     },
---     ["<leader>dz"] = {
---       function()
---         require("dap").focus_frame()
---       end,
---       "Focus Debug Frame",
---     },
---   },
--- }
 
 M.codeium = {
 	plugin = true,
@@ -204,15 +195,40 @@ M.codeium = {
 		},
 		["<C-x>"] = {
 			function()
-				print("Clear suggestion")
 				return vim.fn["codeium#Clear"]()
 			end,
 			"Clear Suggestion",
 		},
-		-- vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true })
-		-- vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
-		-- vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
-		-- vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+	},
+}
+
+M.copilot = {
+	plugin = true,
+	i = {
+		["<C-d>"] = {
+			'copilot#Accept("")',
+			"Accept Suggestion (block)",
+			opts = { expr = true, silent = true, replace_keycodes = false },
+		},
+		["<M-d>"] = {
+			"<Plug>(copilot-accept-line)",
+			"Accept Suggestion (line)",
+		},
+		["<C-\\>"] = {
+			"<Plug>(copilot-next)",
+			"Next Suggestion",
+			opts = { remap = true },
+		},
+		["<C-]>"] = {
+			"<Plug>(copilot-previous)",
+			"Prev Suggestion",
+			opts = { remap = true },
+		},
+		["<C-x>"] = {
+			"<Plug>(copilot-clear)",
+			"Clear Suggestion",
+			opts = { remap = true },
+		},
 	},
 }
 
@@ -237,9 +253,48 @@ M.ufo = {
 }
 
 M.comment_box = {
-  n = {
-    ["<leader>cb"] = {"<cmd>CBalbox10<CR>", "Create Comment Box", {noremap = true, silent = true}}
-  }
+	n = {
+		["<leader>cb"] = {
+			"<cmd>CBalbox10<CR>",
+			"Create Comment Box",
+			{ noremap = true, silent = true },
+		},
+	},
+	v = {
+		["<leader>cb"] = {
+			"<cmd>'<,'>CBalbox10<CR>",
+			"Create Comment Box",
+			{ noremap = true, silent = true },
+		},
+	},
+}
+
+M.lspconfig = {
+	n = {
+		["gD"] = {
+			function()
+				local ts_tools_declaration = require("typescript-tools.api").go_to_source_definition
+				local switch = {
+					["typescript"] = ts_tools_declaration,
+					["javascript"] = ts_tools_declaration,
+					["typescriptreact"] = ts_tools_declaration,
+					["javascriptreact"] = ts_tools_declaration,
+				}
+				local ft = vim.bo.filetype
+
+				if switch[ft] then
+					switch[ft]()
+				else
+					vim.lsp.buf.declaration()
+				end
+			end,
+			"LSP Declaration",
+		},
+		["<leader>lr"] = {
+			"<cmd> Telescope lsp_references<CR>",
+			"List LSP References",
+		},
+	},
 }
 
 return M

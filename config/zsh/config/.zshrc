@@ -7,15 +7,13 @@ fi
 
 
 plugins=(
+  git
   aws
   dirhistory
   docker
   docker-compose
-  git
   history
-  nvm
-  safe-paste
-  z
+  nvm safe-paste z
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
@@ -52,3 +50,8 @@ fi
 
 source "$DOTFILES_DIR/config/zsh/config/zshrc.local"
 
+source <(kubectl completion zsh)
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+autoload -Uz compinit && compinit

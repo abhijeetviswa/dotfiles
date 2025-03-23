@@ -33,6 +33,7 @@ M.mason = {
     "typescript-language-server",
     "deno",
     "prettier",
+    "eslint",
 
     -- c/cpp stuff
     "clangd",
@@ -42,6 +43,12 @@ M.mason = {
 
 -- git support in nvimtree
 M.nvimtree = {
+  view = {
+    width = {},
+    float = {
+      enable = true,
+    },
+  },
   git = {
     enable = true,
   },
@@ -51,6 +58,19 @@ M.nvimtree = {
     icons = {
       show = {
         git = true,
+      },
+    },
+  },
+}
+
+M.telescope = {
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-b>"] = require("telescope.actions.layout").toggle_preview,
+      },
+      n = {
+        ["<C-b>"] = require("telescope.actions.layout").toggle_preview,
       },
     },
   },

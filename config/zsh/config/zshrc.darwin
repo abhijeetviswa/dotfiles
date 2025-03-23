@@ -1,0 +1,19 @@
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export PATH="/usr/local/texlive/2024basic/bin/universal-darwin:$PATH"
+
+# Unfuck ls
+export LS_COLORS="$(vivid generate one-dark || echo '') 2>&1 > /dev/null"
+alias ls='ls --color=auto'
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
+bindkey "^[[1;3C" forward-word
+bindkey "^[[1;3D" backward-word

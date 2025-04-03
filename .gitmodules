@@ -1,7 +1,3 @@
-[submodule "config/nvim/nvchad"]
-	path = config/nvim/nvchad
-  url = https://github.com/NvChad/NvChad
-  ignore = untracked
 [submodule "config/zsh/ohmyzsh"]
 	path = config/zsh/ohmyzsh
 	url = https://github.com/ohmyzsh/ohmyzsh.git

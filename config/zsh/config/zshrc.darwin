@@ -9,7 +9,11 @@ alias ls='ls --color=auto'
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+  FPATH=$(brew --prefix)/share/zsh/functions:$FPATH
+
+  if [ -f $(brew --prefix nvm)/nvm.sh ]; then
+    source $(brew --prefix nvm)/nvm.sh
+  fi
 
   autoload -Uz compinit
   compinit

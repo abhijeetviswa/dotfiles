@@ -52,6 +52,6 @@ source "$DOTFILES_DIR/config/zsh/config/zshrc.local"
 
 source <(kubectl completion zsh)
 
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/go/bin:$PATH"
 
 autoload -Uz compinit && compinit
